@@ -1,0 +1,14 @@
+version: "2"
+services:
+  storage:
+    image: minio/minio
+    ports:
+      - "9000:9000"
+    environment:
+      - MINIO_ACCESS_KEY=dummy
+      - MINIO_SECRET_KEY=dummy123
+    networks:
+      - webnet
+    command: server /data
+networks:
+  webnet:
