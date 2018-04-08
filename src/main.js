@@ -36,8 +36,11 @@ app.post(
 
         res.set('Content-Type', 'application/json');
 
+        var width = (req.body['resize.width'] === undefined) ? undefined : parseInt(req.body['resize.width']);
+        var height = (req.body['resize.height'] === undefined) ? undefined : parseInt(req.body['resize.height']);
+
         sharp(filePath)
-            .resize(800)
+            .resize(width, height)
             .toFile( `${filePath}.transformed.jpg`, function(transformError) {
 
                 // Delete the original file as it is no longer required
@@ -135,5 +138,5 @@ app.get(
 
 app.listen(
     PORT,
-    () => console.info( 'Listening on port 3000!' )
+    () => console.info( `listening on port ${PORT}.` )
 )
