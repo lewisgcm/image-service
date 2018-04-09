@@ -1,0 +1,8 @@
+port: 8080
+uploadDirectory: /tmp/upload
+aws:
+  bucket: test
+  key: dummy
+  secret: dummy123
+  endpoint: http://localhost:8080
+  pathStyle: true
