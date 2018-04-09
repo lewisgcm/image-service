@@ -16,6 +16,7 @@ During retrieval streams have been used when downloading as well, again to minim
 
 ## Performance/Resources
 Testing using Apache jMeter with 100 threads, sending a 5MB file 100 times each showed the following:
-| CPU (2.9 GHz Intel Core i7) | RAM | Storage | Requests/s |
-| ------------- | ------------- |
-|  2 cores @ 100% | 100-200MB | 55B-200MB | 35~ |
+
+| CPU | RAM | Storage | Requests/s |
+| ------------- | ------------- | ------------- | ------------- |
+|  2 cores of 2.9 GHz Intel Core i7 @ 100% | 100-200MB | 55B-200MB | 35~ |
