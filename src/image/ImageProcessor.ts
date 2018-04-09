@@ -1,14 +1,14 @@
-import { IConfig } from "../config/IConfig";
-import { IImageProcessingOptions } from "./IImageProcessingOptions";
-import * as FileSystem from "fs";
-
+import { PathLike } from "fs";
 import * as Sharp from "sharp";
+
+import { Config } from "../config/config";
+import { ImageProcessingOptions } from "./imageProcessingOptions";
 
 export class ImageProcessor {
 	Process(
-		filePath: FileSystem.PathLike,
-		options: IImageProcessingOptions
-	) : Promise<FileSystem.PathLike>
+		filePath: PathLike,
+		options: ImageProcessingOptions
+	) : Promise<PathLike>
 	{
 		return new Promise(
 			(resolve, reject) => {

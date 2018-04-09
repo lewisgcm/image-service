@@ -1,0 +1,8 @@
+port: 8080
+uploadDirectory: /tmp/upload
+aws:
+  bucket: ${AWS_BUCKET}
+  key: ${AWS_KEY}
+  secret: ${AWS_SECRET}
+  endpoint: ${AWS_ENDPOINT}
+  pathStyle: ${AWS_PATH_STYLE}

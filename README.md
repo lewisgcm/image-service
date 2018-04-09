@@ -13,3 +13,9 @@ During retrieval streams have been used when downloading as well, again to minim
 | *AWS_PATH_STYLE*    | Enable/disable force path style for AWS client, is required by some S3 compliant providers.  |
 | *PORT*  | The port this service listens on.  |
 | *UPLOAD_DIR*  | The directory within this container images are uploaded and transformed in.  |
+
+## Performance/Resources
+Testing using Apache jMeter with 100 threads, sending a 5MB file 100 times each showed the following:
+| CPU (2.9 GHz Intel Core i7) | RAM | Storage | Requests/s |
+| ------------- | ------------- |
+|  2 cores @ 100% | 100-200MB | 55B-200MB | 35~ |

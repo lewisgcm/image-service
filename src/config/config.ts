@@ -1,4 +1,4 @@
-export interface IConfig {
+export interface Config {
 	port: number
 	uploadDirectory: string
 	aws : {

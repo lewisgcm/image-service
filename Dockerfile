@@ -3,7 +3,8 @@ FROM node:carbon
 WORKDIR /usr/src/app
 
 COPY package.json ./
-COPY ./src ./src
+COPY ./build ./build
+COPY ./config-docker.yaml ./config.yaml
 
 RUN npm install
 

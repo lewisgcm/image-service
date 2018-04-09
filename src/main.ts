@@ -1,11 +1,15 @@
 import * as Express from "express";
+import * as Multer from "multer";
+import * as FileSystem from "fs";
+
 import { ConfigLoader } from "./config/ConfigLoader";
-import { AWSUploader } from "./uploader/aws.uploader";
-import { ImageProcessor } from "./processing/ImageProcessor";
+import { AWSUploader } from "./upload/awsUploader";
+import { ImageProcessor } from "./image/imageProcessor";
 
 const config = ConfigLoader
 	.LoadSync( process.env["CONFIG_FILE"] || "./config.yaml" );
 
+const upload = Multer.default({ dest: config.uploadDirectory });
 const uploader = new AWSUploader(config);
 const imageProcessor = new ImageProcessor();
 const app = Express.default();
@@ -14,9 +18,10 @@ app.post(
 	"/",
 	upload.single('image'),
 	(request, response, next) => {
+		console.info( `[%s] INFO: received image request.`, new Date() );
 		imageProcessor
 			.Process(
-				(<any>request).file.filePath,
+				request.file.path,
 				{
 					Resize: {
 						Width: 200
@@ -24,14 +29,46 @@ app.post(
 				}
 			).then(
 				(transformedFile) => {
+					FileSystem.unlink(
+						request.file.path,
+						(deleteError) => { if(deleteError) console.error( `[%s] WARN: could not remove file %s.`, new Date(), deleteError ) }
+					);
 					uploader
 						.Upload(
 							transformedFile
 						).then(
-							() => {
-								
+							(result) => {
+								FileSystem.unlink(
+									transformedFile,
+									(deleteError) => { if(deleteError) console.error( `[%s] WARN: could not remove file %s.`, new Date(), deleteError ) }
+								);
+								console.info( `[%s] INFO: image uploaded.`, new Date() );
+								response
+									.send(result);
 							}
-						)
+						).catch(
+							(error) => {
+								FileSystem.unlink(
+									transformedFile,
+									(deleteError) => { if(deleteError) console.error( `[%s] WARN: could not remove file %s.`, new Date(), deleteError ) }
+								);
+								console.error( `[%s] ERROR: %s.`, new Date(), error );
+								response.send({
+									'error' : error
+								});
+							}
+						);
+				}
+			).catch(
+				(error) => {
+					FileSystem.unlink(
+						request.file.path,
+						(deleteError) => { if(deleteError) console.error( `[%s] WARN: could not remove file %s.`, new Date(), deleteError ) }
+					);
+					console.error( `[%s] ERROR: %s.`, new Date(), error );
+					response.send({
+						'error' : error
+					});
 				}
 			);
 	}

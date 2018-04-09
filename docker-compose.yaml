@@ -1,5 +1,22 @@
-version: "2"
+version: "3"
 services:
+  image-service:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      - AWS_BUCKET=test
+      - AWS_KEY=dummy
+      - AWS_SECRET=dummy123
+      - AWS_ENDPOINT=http://storage:9000
+      - AWS_PATH_STYLE=true
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 500M
+    networks:
+      - webnet
   storage:
     image: minio/minio
     ports:

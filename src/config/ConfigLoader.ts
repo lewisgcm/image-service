@@ -1,11 +1,11 @@
-import { IConfig } from './IConfig';
 import * as FileSystem from 'fs';
 import * as YAML from 'js-yaml';
+import { Config } from './config';
 
 export class ConfigLoader {
-	static LoadSync(filename: String): IConfig {
+	static LoadSync(filename: String): Config {
 
-		var config: IConfig = <IConfig>YAML
+		var config: Config = <Config>YAML
 			.safeLoad(
 				FileSystem.readFileSync(<any>filename, 'utf8')
 			);
