@@ -1,6 +1,5 @@
 export interface ImageProcessingOptions {
-	Resize?: {
-		Width?: number,
-		Height?: number
-	}
+	width: number
+	height: number
+	quality: number
 }

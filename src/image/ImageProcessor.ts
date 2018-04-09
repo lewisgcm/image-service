@@ -15,14 +15,14 @@ export class ImageProcessor {
 				var builder = Sharp
 					.default(filePath.toString())
 
-				if( options.Resize ) {
+				if( options.width || options.height ) {
 					builder = builder
-						.resize(options.Resize.Width, options.Resize.Height);
+						.resize(options.width, options.height);
 				}
 
 				builder
 					.jpeg({
-						quality: 100
+						quality: options.quality || 100
 					})
 					.toFile(
 						`${filePath}.transformed.jpg`,

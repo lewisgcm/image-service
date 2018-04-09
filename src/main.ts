@@ -22,11 +22,7 @@ app.post(
 		imageProcessor
 			.Process(
 				request.file.path,
-				{
-					Resize: {
-						Width: 200
-					}
-				}
+				request.query
 			).then(
 				(transformedFile) => {
 					FileSystem.unlink(

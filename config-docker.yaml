@@ -1,5 +1,5 @@
-port: 8080
-uploadDirectory: /tmp/upload
+port: ${PORT}
+uploadDirectory: ${UPLOAD_DIR}
 aws:
   bucket: ${AWS_BUCKET}
   key: ${AWS_KEY}

@@ -1,7 +1,14 @@
 # Image Processing Service
-This micro-service is used for processing images and then uploading the result to an S3 compliant endpoint.
+This micro-service is used for resizing images and then uploading the result to an S3 compliant endpoint as a JPEG.
 Images are streamed to a file, transformed and then streamed to AWS to minimize memory usage during upload.
-During retrieval streams have been used when downloading as well, again to minimize memory usage.
+
+# Usage
+| Variable  | Usage |
+| ------------- | ------------- |
+| width | Width to resize to. |
+| height | Height to resize to. |
+| quality | Quality of the JPEG (default 100). |
+| image | Image file to process, should be in request body |
 
 ## Docker Environment Variables
 | Variable  | Usage |
