@@ -11,7 +11,7 @@ const config = ConfigLoader
 	.LoadSync( process.env["CONFIG_FILE"] || "./config.yaml" );
 
 const upload = Multer.default({ dest: config.uploadDirectory });
-const uploader = new LocalUploader(config);
+const uploader = new AWSUploader(config);
 const imageProcessor = new ImageProcessor();
 const app = Express.default();
 

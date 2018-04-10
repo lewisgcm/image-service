@@ -4,6 +4,10 @@ Images are streamed to a file, transformed and then streamed to the endpoint to 
 
 ## Usage
 To use this micro-service two variables **pipeline** and **image** need to be POST'ed to the route "/".
+Starting this service and a minio instance for testing can be done using docker compose.
+```bash
+docker-compose up
+```
 
 Resize an image:
 ```bash
@@ -13,6 +17,11 @@ curl -F "pipeline=[ { \"resize\" : [ 20, 20 ]} ]" -F "image=@/Users/me/my-image.
 Convert an uploaded image to WEBP:
 ```bash
 curl -F "pipeline=[ { \"webp\" : {} } ]" -F "image=@/Users/me/my-image.jpg" http://127.0.0.1:8080/
+```
+
+Multiple stages can be defined (as with Sharp), remember the order matters!
+```bash
+curl -F "pipeline=[ { \"resize\" : [ 200, 200 ]}, { \"rotate\": [90] }, { \"jpeg\" : { \"quality\" : 100 } } ]" -F "image=@/Users/me/my-image.jpg" http://127.0.0.1:8080/
 ```
 
 The following Sharp methods are supported, usage can be found in the [Sharp docs](http://sharp.pixelplumbing.com/en/stable/):
