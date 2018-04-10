@@ -24,6 +24,12 @@ Multiple stages can be defined (as with Sharp), remember the order matters!
 curl -F "pipeline=[ { \"resize\" : [ 200, 200 ]}, { \"rotate\": [90] }, { \"jpeg\" : { \"quality\" : 100 } } ]" -F "image=@/Users/me/my-image.jpg" http://127.0.0.1:8080/
 ```
 
+## Deployment
+You can deploy the image service to a kubernetes cluster using the sample deployment configuration.
+```bash
+kubectl apply -f image-service.yaml
+```
+
 The following Sharp methods are supported, usage can be found in the [Sharp docs](http://sharp.pixelplumbing.com/en/stable/):
  * resize
  * crop

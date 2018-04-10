@@ -1,0 +1,57 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: image-service
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: image-service
+        role: image-service
+    spec:
+      containers:
+      - name: image-service
+        image: lewisgcm/image-service
+        env:
+          - name: PORT
+            value: '8080'
+          - name: UPLOAD_DIR
+            value: /tmp/upload
+          - name: AWS_BUCKET
+            value: test
+          - name: AWS_KEY
+            value: dummy
+          - name: AWS_SECRET
+            value: dummy123
+          - name: AWS_ENDPOINT
+            value: http://s3:8000
+          - name: AWS_PATH_STYLE
+            value: "true"
+        resources:
+          requests:
+            cpu: 200m
+            memory: 200Mi
+        ports:
+        - containerPort: 8080
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+          periodSeconds: 1
+          timeoutSeconds: 1
+          successThreshold: 1
+          failureThreshold: 10
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: image-service
+  labels:
+    name: image-service
+spec:
+  ports:
+  - port: 8080
+    targetPort: 8080
+  selector:
+    role: image-service
