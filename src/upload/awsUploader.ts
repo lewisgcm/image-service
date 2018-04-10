@@ -4,9 +4,9 @@ import UUID from 'uuid/v4';
 
 import { Config } from "../config/config";
 import { Uploader } from "./uploader";
-import { UploadResult } from "./uploadResult";
+import { AWSUploadResult } from "./awsUploadResult";
 
-export class AWSUploader implements Uploader {
+export class AWSUploader implements Uploader<AWSUploadResult> {
 
 	private s3: S3;
 	private bucket: string;
@@ -21,7 +21,7 @@ export class AWSUploader implements Uploader {
 		this.bucket = config.aws.bucket;
 	}
 
-	Upload( filePath: FileSystem.PathLike ): Promise<UploadResult> {
+	Upload( filePath: FileSystem.PathLike ): Promise<AWSUploadResult> {
 		return new Promise(
 			(resolve, reject) => {
 				var fileStream = FileSystem

@@ -7,5 +7,8 @@ export interface Config {
 		key: string,
 		endpoint: string,
 		pathStyle: boolean
+	},
+	local : {
+		saveDirectory: string
 	}
 }

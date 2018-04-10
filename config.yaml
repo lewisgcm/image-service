@@ -6,3 +6,5 @@ aws:
   secret: dummy123
   endpoint: http://localhost:9000
   pathStyle: true
+local:
+  saveDirectory: ./images/

@@ -1,14 +1,55 @@
 # Image Processing Service
-This micro-service is used for resizing images and then uploading the result to an S3 compliant endpoint as a JPEG.
-Images are streamed to a file, transformed and then streamed to AWS to minimize memory usage during upload.
+This micro-service is used for calling [Sharp](https://github.com/lovell/sharp) pipelines on supplied images and then uploading the result to an S3 compliant endpoint.
+Images are streamed to a file, transformed and then streamed to the endpoint to minimize memory usage during upload.
 
-# Usage
-| Variable  | Usage |
-| ------------- | ------------- |
-| width | Width to resize to. |
-| height | Height to resize to. |
-| quality | Quality of the JPEG (default 100). |
-| image | Image file to process, should be in request body |
+## Usage
+To use this micro-service two variables **pipeline** and **image** need to be POST'ed to the route "/".
+
+Resize an image:
+```bash
+curl -F "pipeline=[ { \"resize\" : [ 20, 20 ]} ]" -F "image=@/Users/me/my-image.jpg" http://127.0.0.1:8080/
+```
+
+Convert an uploaded image to WEBP:
+```bash
+curl -F "pipeline=[ { \"webp\" : {} } ]" -F "image=@/Users/me/my-image.jpg" http://127.0.0.1:8080/
+```
+
+The following Sharp methods are supported, usage can be found in the [Sharp docs](http://sharp.pixelplumbing.com/en/stable/):
+ * resize
+ * crop
+ * embed
+ * max
+ * min
+ * ignoreAspectRatio
+ * withoutEnlargement
+ * rotate
+ * extract
+ * flip
+ * flop
+ * sharpen
+ * median
+ * blur
+ * extend
+ * flatten
+ * trim
+ * gamma
+ * negate
+ * normalise
+ * normalize
+ * convolve
+ * threshold
+ * linear
+ * background
+ * greyscale
+ * grayscale
+ * toColourspace
+ * toColorspace
+ * jpeg
+ * png
+ * webp
+ * tiff
+ * raw
 
 ## Docker Environment Variables
 | Variable  | Usage |

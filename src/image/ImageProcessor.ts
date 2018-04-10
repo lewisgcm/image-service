@@ -4,10 +4,47 @@ import * as Sharp from "sharp";
 import { Config } from "../config/config";
 import { ImageProcessingOptions } from "./imageProcessingOptions";
 
+const SupportedOperations = [
+	"resize",
+	"crop",
+	"embed",
+	"max",
+	"min",
+	"ignoreAspectRatio",
+	"withoutEnlargement",
+	"rotate",
+	"extract",
+	"flip",
+	"flop",
+	"sharpen",
+	"median",
+	"blur",
+	"extend",
+	"flatten",
+	"trim",
+	"gamma",
+	"negate",
+	"normalise",
+	"normalize",
+	"convolve",
+	"threshold",
+	"linear",
+	"background",
+	"greyscale",
+	"grayscale",
+	"toColourspace",
+	"toColorspace",
+	"jpeg",
+	"png",
+	"webp",
+	"tiff",
+	"raw"
+];
+
 export class ImageProcessor {
 	Process(
 		filePath: PathLike,
-		options: ImageProcessingOptions
+		options: any
 	) : Promise<PathLike>
 	{
 		return new Promise(
@@ -15,15 +52,23 @@ export class ImageProcessor {
 				var builder = Sharp
 					.default(filePath.toString())
 
-				if( options.width || options.height ) {
-					builder = builder
-						.resize(options.width, options.height);
+				try {
+					var pipeline: [ { [key: string]: any } ] = JSON
+						.parse(options.pipeline);
+
+					for( var stage in pipeline ) {
+						for( var operation in pipeline[stage] ) {
+							if( SupportedOperations.indexOf(operation) != -1 ) {
+								console.info( `[%s] INFO: executing operation %s with arguments: `, new Date(), operation, pipeline[stage][operation], "." );
+								(<any>(builder))[operation].apply( builder, pipeline[stage][operation] )
+							}
+						}
+					}
+				} catch(e) {
+					return reject(`could not parse the supplied options: ${e}`);
 				}
 
 				builder
-					.jpeg({
-						quality: options.quality || 100
-					})
 					.toFile(
 						`${filePath}.transformed.jpg`,
 						(error) => {

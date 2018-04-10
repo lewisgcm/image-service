@@ -4,13 +4,14 @@ import * as FileSystem from "fs";
 
 import { ConfigLoader } from "./config/ConfigLoader";
 import { AWSUploader } from "./upload/awsUploader";
+import { LocalUploader } from "./upload/localUploader";
 import { ImageProcessor } from "./image/imageProcessor";
 
 const config = ConfigLoader
 	.LoadSync( process.env["CONFIG_FILE"] || "./config.yaml" );
 
 const upload = Multer.default({ dest: config.uploadDirectory });
-const uploader = new AWSUploader(config);
+const uploader = new LocalUploader(config);
 const imageProcessor = new ImageProcessor();
 const app = Express.default();
 
@@ -22,7 +23,7 @@ app.post(
 		imageProcessor
 			.Process(
 				request.file.path,
-				request.query
+				request.body
 			).then(
 				(transformedFile) => {
 					FileSystem.unlink(
@@ -49,6 +50,7 @@ app.post(
 									(deleteError) => { if(deleteError) console.error( `[%s] WARN: could not remove file %s.`, new Date(), deleteError ) }
 								);
 								console.error( `[%s] ERROR: %s.`, new Date(), error );
+								response.status(500);
 								response.send({
 									'error' : error
 								});
@@ -62,6 +64,7 @@ app.post(
 						(deleteError) => { if(deleteError) console.error( `[%s] WARN: could not remove file %s.`, new Date(), deleteError ) }
 					);
 					console.error( `[%s] ERROR: %s.`, new Date(), error );
+					response.status(500);
 					response.send({
 						'error' : error
 					});
