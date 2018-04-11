@@ -2,7 +2,7 @@ import * as Express from "express";
 import * as Multer from "multer";
 import * as FileSystem from "fs";
 
-import { ConfigLoader } from "./config/ConfigLoader";
+import { ConfigLoader } from "./config/configLoader";
 import { AWSUploader } from "./upload/awsUploader";
 import { LocalUploader } from "./upload/localUploader";
 import { ImageProcessor } from "./image/imageProcessor";

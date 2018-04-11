@@ -1,4 +1,8 @@
 # Image Processing Service
+[![Build Status](https://travis-ci.org/lewisgcm/image-service.svg?branch=master)](https://travis-ci.org/lewisgcm/image-service)
+[![Coverage Status](https://coveralls.io/repos/github/lewisgcm/image-service/badge.svg?branch=master)](https://coveralls.io/github/lewisgcm/image-service?branch=master)
+
+
 This micro-service is used for calling [Sharp](https://github.com/lovell/sharp) pipelines on supplied images and then uploading the result to an S3 compliant endpoint.
 Images are streamed to a file, transformed and then streamed to the endpoint to minimize memory usage during upload.
 
