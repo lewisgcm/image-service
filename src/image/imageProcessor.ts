@@ -2,7 +2,6 @@ import { PathLike } from "fs";
 import * as Sharp from "sharp";
 
 import { Config } from "../config/config";
-import { ImageProcessingOptions } from "./imageProcessingOptions";
 
 const SupportedOperations = [
 	"resize",
@@ -61,6 +60,8 @@ export class ImageProcessor {
 							if( SupportedOperations.indexOf(operation) != -1 ) {
 								console.info( `[%s] INFO: executing operation %s with arguments: `, new Date(), operation, pipeline[stage][operation], "." );
 								(<any>(builder))[operation].apply( builder, pipeline[stage][operation] )
+							} else {
+								return reject(`unsupported operation: ${operation}`);
 							}
 						}
 					}

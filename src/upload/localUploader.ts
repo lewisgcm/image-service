@@ -23,7 +23,7 @@ export class LocalUploader implements Uploader<LocalUploadResult> {
 						`${this.saveDir}/${fileId}`,
 						(error) => {
 							if( error ) {
-								return reject(`could not move the file: ${error}`);
+								return reject(`could not copy the file: ${error}`);
 							} else {
 								return resolve({
 									filePath: `${this.saveDir}/${fileId}`
