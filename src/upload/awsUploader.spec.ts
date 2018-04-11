@@ -12,30 +12,22 @@ describe('AWS uploader', () => {
 
 	it('non existent file should be rejected.', () => {
 		var uploader = new AWSUploader({
-			port: 80,
-			uploadDirectory: "/tmp/",
-			aws : {
-				endpoint: "",
-				key: "",
-				secret: "",
-				pathStyle: true,
-				bucket: ""
-			}
+			endpoint: "",
+			key: "",
+			secret: "",
+			pathStyle: true,
+			bucket: ""
 		});
 		return assert.isRejected(uploader.Upload("bad-file"), /could not create file stream for path/, "non-existant file should be rejected.");
 	});
 
 	it('failure to upload should cause rejection.', () => {
 		var uploader = new AWSUploader({
-			port: 80,
-			uploadDirectory: "/tmp/",
-			aws : {
-				endpoint: "",
-				key: "",
-				secret: "",
-				pathStyle: true,
-				bucket: ""
-			}
+			endpoint: "",
+			key: "",
+			secret: "",
+			pathStyle: true,
+			bucket: ""
 		});
 		var tempFile = fileSync({ dir : __dirname });
 		const mock: TypeMoq.IMock<S3> = TypeMoq.Mock.ofType(S3);
@@ -53,15 +45,11 @@ describe('AWS uploader', () => {
 
 	it('upload is fulfilled.', () => {
 		var uploader = new AWSUploader({
-			port: 80,
-			uploadDirectory: "/tmp/",
-			aws : {
-				endpoint: "",
-				key: "",
-				secret: "",
-				pathStyle: true,
-				bucket: ""
-			}
+			endpoint: "",
+			key: "",
+			secret: "",
+			pathStyle: true,
+			bucket: ""
 		});
 		var tempFile = fileSync({ dir : __dirname });
 		const mock: TypeMoq.IMock<S3> = TypeMoq.Mock.ofType(S3);

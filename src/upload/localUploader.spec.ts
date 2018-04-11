@@ -13,22 +13,14 @@ describe('Local uploader', () => {
 
 	it('non existent file should be rejected.', () => {
 		var uploader = new LocalUploader({
-			port: 80,
-			uploadDirectory: "/tmp/",
-			local : {
-				saveDirectory: __dirname
-			}
+			saveDirectory: __dirname
 		});
 		return assert.isRejected(uploader.Upload("bad-file"), /no such file or directory/, "non existent file should be rejected.");
 	});
 	
 	it('a file can be copied.', () => {
 		var uploader = new LocalUploader({
-			port: 80,
-			uploadDirectory: "/tmp/",
-			local : {
-				saveDirectory: __dirname
-			}
+			saveDirectory: __dirname
 		});
 		var tempFile = fileSync({ dir : __dirname });
 		uploader.Upload(tempFile.name).then(

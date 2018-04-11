@@ -1,10 +1,4 @@
 port: 8090
 uploadDirectory: /tmp/upload
-aws:
-  bucket: test
-  key: dummy
-  secret: dummy123
-  endpoint: http://localhost:9000
-  pathStyle: true
-local:
+upload:
   saveDirectory: ./images/

@@ -1,6 +1,9 @@
 import * as FileSystem from 'fs';
 import * as YAML from 'js-yaml';
-import { Config } from './config';
+import { Config, LocalConfig, AWSConfig } from './config';
+import { Uploader } from './../upload/uploader';
+import { AWSUploader } from './../upload/awsUploader';
+import { LocalUploader } from './../upload/localUploader';
 
 export class ConfigLoader {
 	static LoadSync(filename: String): Config {
@@ -16,6 +19,14 @@ export class ConfigLoader {
 			);
 
 		return config;
+	}
+
+	static GetUploader(config: Config): Uploader<any> {
+		if( (<LocalConfig>config.upload).saveDirectory  !== undefined ) {
+			return new LocalUploader((<LocalConfig>config.upload));
+		} else {
+			return new AWSUploader((<AWSConfig>config.upload));
+		}
 	}
 
 	private static _resolve_environment_variables(config: any) {

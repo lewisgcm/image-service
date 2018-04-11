@@ -2,7 +2,7 @@ import { S3, AWSError } from "aws-sdk";
 import * as FileSystem from "fs";
 import UUID from 'uuid/v4';
 
-import { Config } from "../config/config";
+import { Config, AWSConfig } from "../config/config";
 import { Uploader } from "./uploader";
 import { AWSUploadResult } from "./awsUploadResult";
 
@@ -11,14 +11,14 @@ export class AWSUploader implements Uploader<AWSUploadResult> {
 	private s3: S3;
 	private bucket: string;
 	
-	constructor( config: Config ) {
+	constructor( config: AWSConfig ) {
 		this.s3 = new S3({
-			accessKeyId: config.aws.key,
-			secretAccessKey: config.aws.secret,
-			endpoint: config.aws.endpoint,
-			s3ForcePathStyle: config.aws.pathStyle
+			accessKeyId: config.key,
+			secretAccessKey: config.secret,
+			endpoint: config.endpoint,
+			s3ForcePathStyle: config.pathStyle
 		});
-		this.bucket = config.aws.bucket;
+		this.bucket = config.bucket;
 	}
 
 	setS3(s3: S3) {

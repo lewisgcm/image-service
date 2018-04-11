@@ -1,6 +1,6 @@
 port: ${PORT}
 uploadDirectory: ${UPLOAD_DIR}
-aws:
+upload:
   bucket: ${AWS_BUCKET}
   key: ${AWS_KEY}
   secret: ${AWS_SECRET}

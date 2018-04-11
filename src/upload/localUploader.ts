@@ -1,7 +1,7 @@
 import * as FileSystem from "fs";
 import UUID from 'uuid/v4';
 
-import { Config } from "../config/config";
+import { LocalConfig } from "../config/config";
 import { Uploader } from "./uploader";
 import { LocalUploadResult } from "./localUploadResult";
 
@@ -9,8 +9,8 @@ export class LocalUploader implements Uploader<LocalUploadResult> {
 
 	private saveDir: string
 	
-	constructor( config: Config ) {
-		this.saveDir = config.local.saveDirectory;
+	constructor( config: LocalConfig ) {
+		this.saveDir = config.saveDirectory;
 	}
 
 	Upload( filePath: FileSystem.PathLike ): Promise<LocalUploadResult> {

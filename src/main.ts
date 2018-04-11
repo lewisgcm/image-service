@@ -3,15 +3,14 @@ import * as Multer from "multer";
 import * as FileSystem from "fs";
 
 import { ConfigLoader } from "./config/configLoader";
-import { AWSUploader } from "./upload/awsUploader";
-import { LocalUploader } from "./upload/localUploader";
 import { ImageProcessor } from "./image/imageProcessor";
 
 const config = ConfigLoader
 	.LoadSync( process.env["CONFIG_FILE"] || "./config.yaml" );
 
 const upload = Multer.default({ dest: config.uploadDirectory });
-const uploader = new LocalUploader(config);
+const uploader = ConfigLoader
+	.GetUploader(config);
 const imageProcessor = new ImageProcessor();
 const app = Express.default();
 
