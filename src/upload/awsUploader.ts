@@ -21,6 +21,10 @@ export class AWSUploader implements Uploader<AWSUploadResult> {
 		this.bucket = config.aws.bucket;
 	}
 
+	setS3(s3: S3) {
+		this.s3 = s3;
+	}
+
 	Upload( filePath: FileSystem.PathLike ): Promise<AWSUploadResult> {
 		return new Promise(
 			(resolve, reject) => {

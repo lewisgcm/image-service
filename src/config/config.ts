@@ -1,14 +1,14 @@
 export interface Config {
 	port: number
 	uploadDirectory: string
-	aws : {
+	aws? : {
 		bucket: string,
 		secret: string,
 		key: string,
 		endpoint: string,
 		pathStyle: boolean
 	},
-	local : {
+	local? : {
 		saveDirectory: string
 	}
 }
