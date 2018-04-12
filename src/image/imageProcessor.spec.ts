@@ -4,6 +4,8 @@ import { unlinkSync } from 'fs';
 import * as TypeMoq from "typemoq";
 
 use(require('chai-as-promised'));
+use(require('chai-fs'));
+
 import 'mocha';
 
 import { ImageProcessor } from "./imageProcessor";
@@ -49,6 +51,7 @@ describe('Image processor', () => {
             )
         ).then(
             () => {
+                (<any>assert).pathExists(`${__dirname}/../../test.jpg.transformed.jpg`);
                 unlinkSync(`${__dirname}/../../test.jpg.transformed.jpg`);
             }
         );

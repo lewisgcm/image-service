@@ -30,6 +30,18 @@ describe('Local uploader', () => {
 				unlinkSync(file.filePath);
 			}
 		)
-    });
-    
+	});
+
+	it('invalid path cannot be copied.', () => {
+		var uploader = new LocalUploader({
+			saveDirectory: "?/*/\""
+		});
+		var tempFile = fileSync({ dir : __dirname });
+		return assert.isRejected(
+			uploader.Upload(tempFile.name),
+			/no such file or directory/,
+			"non existent file should be rejected."
+		).then( () => tempFile.removeCallback() );
+	});
+	
 });

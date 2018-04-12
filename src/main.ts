@@ -5,12 +5,9 @@ import * as FileSystem from "fs";
 import { ConfigLoader } from "./config/configLoader";
 import { ImageProcessor } from "./image/imageProcessor";
 
-const config = ConfigLoader
-	.LoadSync( process.env["CONFIG_FILE"] || "./config.yaml" );
-
+const config = ConfigLoader.LoadSync( process.env["CONFIG_FILE"] || "./config.yaml" );
+const uploader = ConfigLoader.GetUploader(config);
 const upload = Multer.default({ dest: config.uploadDirectory });
-const uploader = ConfigLoader
-	.GetUploader(config);
 const imageProcessor = new ImageProcessor();
 const app = Express.default();
 
@@ -27,10 +24,7 @@ app.post(
 				(transformedFile) => {
 					FileSystem.unlink(
 						request.file.path,
-						(deleteError) => {
-							if(deleteError) {
-								console.error( `[%s] WARN: could not remove file %s.`, new Date(), deleteError );
-							}
+						() => {
 							uploader
 								.Upload(
 									transformedFile
@@ -38,10 +32,7 @@ app.post(
 									(result) => {
 										FileSystem.unlink(
 											transformedFile,
-											(deleteError) => {
-												if(deleteError) {
-													console.error( `[%s] WARN: could not remove file %s.`, new Date(), deleteError );
-												}
+											() => {
 												console.info( `[%s] INFO: image uploaded.`, new Date() );
 												return response
 													.send(result);
@@ -52,10 +43,7 @@ app.post(
 									(error) => {
 										FileSystem.unlink(
 											transformedFile,
-											(deleteError) => {
-												if(deleteError) {
-													console.error( `[%s] WARN: could not remove file %s.`, new Date(), deleteError );
-												}
+											() => {
 												console.error( `[%s] ERROR: %s.`, new Date(), error );
 												response.status(500);
 												return response.send({
@@ -72,10 +60,7 @@ app.post(
 				(error) => {
 					FileSystem.unlink(
 						request.file.path,
-						(deleteError) => {
-							if(deleteError) {
-								console.error( `[%s] WARN: could not remove file %s.`, new Date(), deleteError );
-							}
+						() => {
 							console.error( `[%s] ERROR: %s.`, new Date(), error );
 							response.status(500);
 							return response.send({

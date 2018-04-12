@@ -31,12 +31,10 @@ export class ConfigLoader {
 
 	private static _resolve_environment_variables(config: any) {
 		for( var property in config ) {
-			if (config.hasOwnProperty(property)) {
-				if(typeof config[property] === "object") {
-					ConfigLoader._resolve_environment_variables( config[property] )
-				} else {
-					config[property] = ConfigLoader._resolve_environment_variable(config[property]);
-				}
+			if(typeof config[property] === "object") {
+				ConfigLoader._resolve_environment_variables( config[property] )
+			} else {
+				config[property] = ConfigLoader._resolve_environment_variable(config[property]);
 			}
 		}
 	}

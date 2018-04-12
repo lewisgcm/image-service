@@ -3,8 +3,32 @@
 [![Coverage Status](https://coveralls.io/repos/github/lewisgcm/image-service/badge.svg?branch=master)](https://coveralls.io/github/lewisgcm/image-service?branch=master)
 
 
-This micro-service is used for calling [Sharp](https://github.com/lovell/sharp) pipelines on supplied images and then uploading the result to an S3 compliant endpoint.
+This micro-service is used for calling [Sharp](https://github.com/lovell/sharp) pipelines on supplied images and then uploading the result to an S3 compliant endpoint or local storage.
 Images are streamed to a file, transformed and then streamed to the endpoint to minimize memory usage during upload.
+
+## Configuration
+Configuration is stored in the config.yaml file in the top directory of this project, you can override this by using the CONFIG_FILE environment variable.
+Additionally environment variables can be used inside the configuration file by using the spring like ${VARIABLE} syntax.
+
+To configure uploading to aws the following YAMl could be used:
+```yaml
+port: 8080
+uploadDirectory: /tmp/uploaded_files
+upload:
+  bucket: ${AWS_BUCKET}
+  key: ${AWS_KEY}
+  secret: ${AWS_SECRET}
+  endpoint: ${AWS_ENDPOINT}
+  pathStyle: ${AWS_PATH_STYLE}
+```
+
+To configure copying to a local directory the following YAMl could be used:
+```yaml
+port: 8080
+uploadDirectory: /tmp/uploaded_files
+upload:
+  saveDirectory: /images/
+```
 
 ## Usage
 To use this micro-service two variables **pipeline** and **image** need to be POST'ed to the route "/".
